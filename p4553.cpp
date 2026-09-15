@@ -33,23 +33,62 @@ int main()
     }
     sort(passnager.begin(),passnager.end());
     //MAIN
-    int left=0;
-    int right=0;
-    vector<int> passnagerSum(K);
-    vector<int> train(N);
 
-    for (int t=0;t<K;t++)
+
+
+    int left = 0;
+    int right = 0;
+
+    vector<int> train(N + 1, 0);
+    vector<int> answer(K);
+
+    int trainNum = 0;
+
+    for (int t = 0; t < K; t++)
     {
-        left=traintime[t];
-        right=traintime[t]+X;
-        while (right < M &&passnager[right][0] < end)
-        {
+        int start = traintime[t].start;
+        int end = start + X;
 
+        // 右边加入新进入时间区间的乘客
+        while (right < M &&
+               passnager[right][0] < end)
+        {
+            int trainId = passnager[right][1];
+
+            if (train[trainId] == 0)
+                trainNum++;
+
+            train[trainId]++;
+
+            right++;
         }
 
+        // 左边删除已经早于当前时间区间的乘客
+        while (left < right &&
+               passnager[left][0] < start)
+        {
+            int trainId = passnager[left][1];
+
+            train[trainId]--;
+
+            if (train[trainId] == 0)
+                trainNum--;
+
+            left++;
+        }
+
+        answer[traintime[t].id] = trainNum;
     }
 
 
 
     //OUT
+    for (int k=0;k<K;k++)
+    {
+        cout<<answer[k];
+            if (k!=K-1)
+            {
+                cout<<" ";
+            }
+    }
 }
