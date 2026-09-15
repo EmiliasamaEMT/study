@@ -12,4 +12,6 @@ add_executable(test test.cpp
         p2280.cpp
         p2250.cpp
         p2282.cpp
-        p2846.cpp)
+        p2846.cpp
+        p3296.cpp
+        p4553.cpp)
